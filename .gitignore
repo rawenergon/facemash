@@ -1,0 +1,6 @@
+node_modules/
+.env
+*.log
+setup.sql
+.vercel
+.env*

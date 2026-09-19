@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+    <link rel="preconnect" href="https://erdltqfqxrtiqdmtvunl.supabase.co">
+    <title>Rankings — FaceMash Leaderboard</title>
+    <meta name="description" content="FaceMash leaderboard — see the top-ranked photos by wins and rating, with weekly, monthly and yearly winners.">
+    <meta name="keywords" content="FaceMash rankings, facemash leaderboard, hottest photo, ranking, weekly winner, monthly winner">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="FaceMash">
+    <link rel="canonical" href="https://b127facemash.vercel.app/rankings.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FaceMash">
+    <meta property="og:title" content="Rankings — FaceMash Leaderboard">
+    <meta property="og:description" content="See the top-ranked photos by wins and rating on FaceMash.">
+    <meta property="og:url" content="https://b127facemash.vercel.app/rankings.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Rankings — FaceMash Leaderboard">
+    <meta name="twitter:description" content="See the top-ranked photos by wins and rating on FaceMash.">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "FaceMash Rankings",
+      "url": "https://b127facemash.vercel.app/rankings.html",
+      "description": "See the top-ranked photos by wins and rating on FaceMash.",
+      "isPartOf": { "@type": "WebSite", "name": "FaceMash", "url": "https://b127facemash.vercel.app/" }
+    }
+    </script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%94%A5</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="page-wrap">
+    <div class="header">
+        <div class="header-row">
+            <div class="header-side"></div>
+            <div class="header-brand">
+                <h1 class="title">FACEMASH</h1>
+            </div>
+            <div class="auth-area" id="auth-area"></div>
+        </div>
+    </div>
+
+    <div class="tagline">Were we let in for our looks? No. Will we be judged on them? Yes.</div>
+
+    <div class="nav">
+        <a href="/">Photo Battle</a>
+        &nbsp;|&nbsp;
+        <a href="/rankings">Rankings</a>
+        &nbsp;|&nbsp;
+        <a href="/upload">Add Photos</a>
+    </div>
+    <hr>
+
+    <!-- Leaderboard Section -->
+    <section id="leaderboard-section" class="section active">
+        <h2>Rankings</h2>
+        <div id="winner-banner" class="winner-banner" style="display: none;"></div>
+        <div class="period-tabs">
+            <a href="#" data-period="weekly" class="active" onclick="setPeriod('weekly');return false;">Weekly</a>
+            &nbsp;|&nbsp;
+            <a href="#" data-period="monthly" onclick="setPeriod('monthly');return false;">Monthly</a>
+            &nbsp;|&nbsp;
+            <a href="#" data-period="yearly" onclick="setPeriod('yearly');return false;">Yearly</a>
+        </div>
+        <div class="leaderboard-list" id="leaderboard">
+            <p class="loading">Need photos. Be the first to upload!</p>
+        </div>
+    </section>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('auth-modal')">&times;</span>
+            <h3 id="auth-title">Log In</h3>
+            <form id="auth-form" class="modal-form">
+                <input type="text" id="auth-name" placeholder="Name (signup only)">
+                <input type="email" id="auth-email" placeholder="Email" required>
+                <input type="password" id="auth-password" placeholder="Password (min 6 characters)" required>
+                <button type="submit" class="btn-primary" id="auth-submit">Log In</button>
+                <div id="auth-msg" class="auth-msg"></div>
+                <p class="auth-toggle-text"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Prizes Modal -->
+    <div id="prizes-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('prizes-modal')">&times;</span>
+            <h3>Prizes</h3>
+            <ul class="prize-list">
+                <li><b>Weekly Winner:</b> Logitech Mouse</li>
+                <li><b>Monthly Winner:</b> Play Store Redeem Code</li>
+                <li><b>Yearly Winner:</b> Google Play yearly + Free Domain</li>
+            </ul>
+            <p class="prize-note">Winners must email <a href="mailto:devadibxr@gmail.com">devadibxr@gmail.com</a> to claim their prize within 7 days of the period ending.</p>
+        </div>
+    </div>
+
+    <!-- Terms & Conditions Modal -->
+    <div id="tnc-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('tnc-modal')">&times;</span>
+            <h3>Terms &amp; Conditions</h3>
+            <ol class="tnc-list">
+                <li>All images are uploaded by their respective owners. You are responsible for the content you upload.</li>
+                <li>If you find something unusual, offensive, or inappropriate, report it to <a href="mailto:devadibxr@gmail.com">devadibxr@gmail.com</a>.</li>
+                <li>Weekly, Monthly, and Yearly winners are determined by the leaderboard ranking at the end of each period.</li>
+                <li>To claim an award, winners must send an email to <a href="mailto:devadibxr@gmail.com">devadibxr@gmail.com</a> with their full name, the photo entry, and the category (Weekly / Monthly / Yearly).</li>
+                <li>Claims must be submitted within 7 days of the period ending, otherwise the prize is forfeited.</li>
+                <li>One prize per person per prize tier per period.</li>
+                <li>Ratings are calculated with a fair Elo-style system; manipulation, bots, and multiple entries for the same person are not allowed and may lead to disqualification.</li>
+                <li>Guests may upload up to 5 photos per day. Logged-in users get priority and can delete their own photos.</li>
+                <li>This is a fun community game. Play nice.</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="footer">
+        <hr>
+        <p>
+            <a href="#" onclick="openFooterModal('prizes-modal');return false;">Prizes</a>
+            &nbsp;|&nbsp;
+            <a href="#" onclick="openFooterModal('tnc-modal');return false;">Terms &amp; Conditions</a>
+        </p>
+    </div>
+    </div>
+
+    <script src="supabase-js.min.js" defer></script>
+    <script src="app.js" defer></script>
+</body>
+</html>

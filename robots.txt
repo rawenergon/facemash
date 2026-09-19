@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://b127facemash.vercel.app/sitemap.xml

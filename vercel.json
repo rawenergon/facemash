@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "express",
+  "buildCommand": "npm --prefix web install && npm --prefix web run build && node -e \"require('fs').copyFileSync('robots.txt','web/dist/robots.txt');require('fs').copyFileSync('sitemap.xml','web/dist/sitemap.xml')\"",
+  "outputDirectory": "."
+}

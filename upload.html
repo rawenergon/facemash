@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+    <link rel="preconnect" href="https://erdltqfqxrtiqdmtvunl.supabase.co">
+    <title>Add Your Photo — FaceMash</title>
+    <meta name="description" content="Upload your photo to FaceMash and let the crowd vote. Compete for weekly, monthly and yearly leaderboard prizes.">
+    <meta name="keywords" content="FaceMash upload, add photo, upload picture, photo battle, rate photos">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="FaceMash">
+    <link rel="canonical" href="https://b127facemash.vercel.app/upload.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FaceMash">
+    <meta property="og:title" content="Add Your Photo — FaceMash">
+    <meta property="og:description" content="Upload your photo to FaceMash and let the crowd vote.">
+    <meta property="og:url" content="https://b127facemash.vercel.app/upload.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Add Your Photo — FaceMash">
+    <meta name="twitter:description" content="Upload your photo to FaceMash and let the crowd vote.">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "FaceMash Photo Upload",
+      "url": "https://b127facemash.vercel.app/upload.html",
+      "description": "Upload your photo to FaceMash and compete on the leaderboard.",
+      "isPartOf": { "@type": "WebSite", "name": "FaceMash", "url": "https://b127facemash.vercel.app/" }
+    }
+    </script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%94%A5</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="page-wrap">
+    <div class="header">
+        <div class="header-row">
+            <div class="header-side"></div>
+            <div class="header-brand">
+                <h1 class="title">FACEMASH</h1>
+            </div>
+            <div class="auth-area" id="auth-area"></div>
+        </div>
+    </div>
+
+    <div class="tagline">Were we let in for our looks? No. Will we be judged on them? Yes.</div>
+
+    <div class="nav">
+        <a href="/">Photo Battle</a>
+        &nbsp;|&nbsp;
+        <a href="/rankings">Rankings</a>
+        &nbsp;|&nbsp;
+        <a href="/upload">Add Photos</a>
+    </div>
+    <hr>
+
+    <!-- Upload Section -->
+    <section id="upload-section" class="section active">
+        <h2>Add Your Photo</h2>
+        <p class="upload-note" id="upload-note">You are playing as a guest. You can upload up to 5 photos a day. Guests cannot delete photos &mdash; <a href="#" onclick="openAuthModal('login');return false;">log in</a> or <a href="#" onclick="openAuthModal('signup');return false;">sign up</a> to manage yours.</p>
+        <form id="upload-form" class="upload-form">
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" required placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" required>
+                    <option value="">Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Non-binary">Non-binary</option>
+                    <option value="Prefer not to say">Prefer not to say</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="photo">Select Photo</label>
+                <input type="file" id="photo" accept="image/*" required>
+                <div class="preview-container"><img id="preview" src="" alt="Preview" style="display: none;"></div>
+            </div>
+            <button type="submit" class="btn-primary">Upload</button>
+            <div id="upload-status" style="display: none;"></div>
+        </form>
+        <div class="my-photos" id="my-photos" style="display: none;">
+            <h3>Your Photos</h3>
+            <p class="my-photos-note">Your uploaded photos appear here so you can delete them anytime.</p>
+            <div id="my-photos-list"></div>
+        </div>
+    </section>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('auth-modal')">&times;</span>
+            <h3 id="auth-title">Log In</h3>
+            <form id="auth-form" class="modal-form">
+                <input type="text" id="auth-name" placeholder="Name (signup only)">
+                <input type="email" id="auth-email" placeholder="Email" required>
+                <input type="password" id="auth-password" placeholder="Password (min 6 characters)" required>
+                <button type="submit" class="btn-primary" id="auth-submit">Log In</button>
+                <div id="auth-msg" class="auth-msg"></div>
+                <p class="auth-toggle-text"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Prizes Modal -->
+    <div id="prizes-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('prizes-modal')">&times;</span>
+            <h3>Prizes</h3>
+            <ul class="prize-list">
+                <li><b>Weekly Winner:</b> Logitech Mouse</li>
+                <li><b>Monthly Winner:</b> Play Store Redeem Code</li>
+                <li><b>Yearly Winner:</b> Google Play yearly + Free Domain</li>
+            </ul>
+            <p class="prize-note">Winners must email <a href="mailto:devadibxr@gmail.com">devadibxr@gmail.com</a> to claim their prize within 7 days of the period ending.</p>
+        </div>
+    </div>
+
+    <!-- Terms & Conditions Modal -->
+    <div id="tnc-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('tnc-modal')">&times;</span>
+            <h3>Terms &amp; Conditions</h3>
+            <ol class="tnc-list">
+                <li>All images are uploaded by their respective owners. You are responsible for the content you upload.</li>
+                <li>If you find something unusual, offensive, or inappropriate, report it to <a href="mailto:devadibxr@gmail.com">devadibxr@gmail.com</a>.</li>
+                <li>Weekly, Monthly, and Yearly winners are determined by the leaderboard ranking at the end of each period.</li>
+                <li>To claim an award, winners must send an email to <a href="mailto:devadibxr@gmail.com">devadibxr@gmail.com</a> with their full name, the photo entry, and the category (Weekly / Monthly / Yearly).</li>
+                <li>Claims must be submitted within 7 days of the period ending, otherwise the prize is forfeited.</li>
+                <li>One prize per person per prize tier per period.</li>
+                <li>Ratings are calculated with a fair Elo-style system; manipulation, bots, and multiple entries for the same person are not allowed and may lead to disqualification.</li>
+                <li>Guests may upload up to 5 photos per day. Logged-in users get priority and can delete their own photos.</li>
+                <li>This is a fun community game. Play nice.</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="footer">
+        <hr>
+        <p>
+            <a href="#" onclick="openFooterModal('prizes-modal');return false;">Prizes</a>
+            &nbsp;|&nbsp;
+            <a href="#" onclick="openFooterModal('tnc-modal');return false;">Terms &amp; Conditions</a>
+        </p>
+    </div>
+    </div>
+
+    <script src="supabase-js.min.js" defer></script>
+    <script src="app.js" defer></script>
+</body>
+</html>

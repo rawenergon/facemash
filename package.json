@@ -1,0 +1,26 @@
+{
+  "name": "facemash",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "npm --prefix web install && npm --prefix web run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "engines": {
+    "node": "22.x"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.116.0",
+    "bcryptjs": "3.0.3",
+    "cloudinary": "2.11.0",
+    "compression": "^1.8.2",
+    "express": "5.2.1",
+    "multer": "2.4.0"
+  }
+}

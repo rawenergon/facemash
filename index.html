@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+    <link rel="preconnect" href="https://erdltqfqxrtiqdmtvunl.supabase.co">
+    <title>FaceMash: Who's Hotter? Vote Now</title>
+    <meta name="description" content="FaceMash — vote who's hotter in head-to-head photo battles, climb the leaderboard, and see weekly, monthly and yearly winners.">
+    <meta name="keywords" content="FaceMash, facemash, who's hotter, hot or not, photo battle, rate photos, ranking, vote hotness">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="FaceMash">
+    <link rel="canonical" href="https://b127facemash.vercel.app/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FaceMash">
+    <meta property="og:title" content="FaceMash: Who's Hotter? Vote Now">
+    <meta property="og:description" content="Vote who's hotter in head-to-head photo battles and climb the leaderboard on FaceMash.">
+    <meta property="og:url" content="https://b127facemash.vercel.app/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="FaceMash: Who's Hotter? Vote Now">
+    <meta name="twitter:description" content="Vote who's hotter in head-to-head photo battles and climb the leaderboard on FaceMash.">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "FaceMash",
+      "alternateName": ["FaceMash", "Harvard FaceMash"],
+      "url": "https://b127facemash.vercel.app/",
+      "description": "Vote who's hotter in head-to-head photo battles and climb the leaderboard."
+    }
+    </script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%94%A5</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="page-wrap">
+    <div class="header">
+        <div class="header-row">
+            <div class="header-side"></div>
+            <div class="header-brand">
+                <h1 class="title">FACEMASH</h1>
+            </div>
+            <div class="auth-area" id="auth-area"></div>
+        </div>
+    </div>
+
+    <div class="tagline">Were we let in for our looks? No. Will we be judged on them? Yes.</div>
+
+    <div class="nav">
+        <a href="/">Photo Battle</a>
+        &nbsp;|&nbsp;
+        <a href="/rankings">Rankings</a>
+        &nbsp;|&nbsp;
+        <a href="/upload">Add Photos</a>
+    </div>
+    <hr>
+
+    <!-- Rate Section -->
+    <section id="rate-section" class="section active">
+        <div class="prompt" id="battle-prompt">Who's Hotter? Click to Choose.</div>
+        <div class="battle-container">
+            <div class="photo-card" onclick="vote('left')">
+                <div class="img-wrap"><img id="left-photo" src="" alt="Photo 1" fetchpriority="high" decoding="async"></div>
+                <div class="name" id="left-name">Loading...</div>
+                <div class="choices">
+                    <a href="#" onclick="event.stopPropagation();vote('left');return false;">HOTTER</a>
+                    &nbsp;&nbsp;
+                    <a href="#" onclick="event.stopPropagation();vote('right');return false;">NOT</a>
+                </div>
+                <div class="stats">
+                    <span id="left-gender"></span>
+                    <div>Rating: <b><span id="left-rating">-</span></b> <span id="left-streak"></span></div>
+                    <div class="fame-title" id="left-title"></div>
+                </div>
+            </div>
+            <div class="vs-badge">OR</div>
+            <div class="photo-card" onclick="vote('right')">
+                <div class="img-wrap"><img id="right-photo" src="" alt="Photo 2" fetchpriority="high" decoding="async"></div>
+                <div class="name" id="right-name">Loading...</div>
+                <div class="choices">
+                    <a href="#" onclick="event.stopPropagation();vote('right');return false;">HOTTER</a>
+                    &nbsp;&nbsp;
+                    <a href="#" onclick="event.stopPropagation();vote('left');return false;">NOT</a>
+                </div>
+                <div class="stats">
+                    <span id="right-gender"></span>
+                    <div>Rating: <b><span id="right-rating">-</span></b> <span id="right-streak"></span></div>
+                    <div class="fame-title" id="right-title"></div>
+                </div>
+            </div>
+        </div>
+        <div class="skip"><a href="#" onclick="loadNewPair();return false;">Skip this match</a></div>
+    </section>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('auth-modal')">&times;</span>
+            <h3 id="auth-title">Log In</h3>
+            <form id="auth-form" class="modal-form">
+                <input type="text" id="auth-name" placeholder="Name (signup only)">
+                <input type="email" id="auth-email" placeholder="Email" required>
+                <input type="password" id="auth-password" placeholder="Password (min 6 characters)" required>
+                <button type="submit" class="btn-primary" id="auth-submit">Log In</button>
+                <div id="auth-msg" class="auth-msg"></div>
+                <p class="auth-toggle-text"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Prizes Modal -->
+    <div id="prizes-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('prizes-modal')">&times;</span>
+            <h3>Prizes</h3>
+            <ul class="prize-list">
+                <li><b>Weekly Winner:</b> Logitech Mouse</li>
+                <li><b>Monthly Winner:</b> Play Store Redeem Code</li>
+                <li><b>Yearly Winner:</b> Google Play yearly + Free Domain</li>
+            </ul>
+            <p class="prize-note">Winners must email <a href="mailto:devadibxr@gmail.com">devadibxr@gmail.com</a> to claim their prize within 7 days of the period ending.</p>
+        </div>
+    </div>
+
+    <!-- Terms & Conditions Modal -->
+    <div id="tnc-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('tnc-modal')">&times;</span>
+            <h3>Terms &amp; Conditions</h3>
+            <ol class="tnc-list">
+                <li>All images are uploaded by their respective owners. You are responsible for the content you upload.</li>
+                <li>If you find something unusual, offensive, or inappropriate, report it to <a href="mailto:devadibxr@gmail.com">devadibxr@gmail.com</a>.</li>
+                <li>Weekly, Monthly, and Yearly winners are determined by the leaderboard ranking at the end of each period.</li>
+                <li>To claim an award, winners must send an email to <a href="mailto:devadibxr@gmail.com">devadibxr@gmail.com</a> with their full name, the photo entry, and the category (Weekly / Monthly / Yearly).</li>
+                <li>Claims must be submitted within 7 days of the period ending, otherwise the prize is forfeited.</li>
+                <li>One prize per person per prize tier per period.</li>
+                <li>Ratings are calculated with a fair Elo-style system; manipulation, bots, and multiple entries for the same person are not allowed and may lead to disqualification.</li>
+                <li>Guests may upload up to 5 photos per day. Logged-in users get priority and can delete their own photos.</li>
+                <li>This is a fun community game. Play nice.</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="footer">
+        <hr>
+        <p>
+            <a href="#" onclick="openFooterModal('prizes-modal');return false;">Prizes</a>
+            &nbsp;|&nbsp;
+            <a href="#" onclick="openFooterModal('tnc-modal');return false;">Terms &amp; Conditions</a>
+        </p>
+    </div>
+    </div>
+
+    <script src="supabase-js.min.js" defer></script>
+    <script src="app.js" defer></script>
+</body>
+</html>
